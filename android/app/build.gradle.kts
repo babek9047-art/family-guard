@@ -20,7 +20,7 @@ android {
         applicationId = "com.familyguard.child"
         minSdk = 26
         targetSdk = 35
-        versionCode = 10
+        versionCode = 11
         versionName = "1.0.0"
     }
 
@@ -53,7 +53,7 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.findByName("release")
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
