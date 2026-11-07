@@ -20,8 +20,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Prepare Android SDK
+        run: |
+          SDK="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+          echo "Using Android SDK at: $SDK"
+          yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          "$SDK/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Restore signing key
         env:
@@ -41,7 +45,9 @@ jobs:
 
       - name: Build release APKs
         working-directory: android
-        run: ./gradlew assembleLiteRelease assembleFullRelease --no-daemon
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleLiteRelease assembleFullRelease --no-daemon --stacktrace
 
       - name: Rename APKs
         run: |
