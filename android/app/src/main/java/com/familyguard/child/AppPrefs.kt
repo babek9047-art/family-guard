@@ -51,6 +51,11 @@ class AppPrefs(context: Context) {
         get() = prefs.getInt("limit_notified_day", -1)
         set(value) = prefs.edit().putInt("limit_notified_day", value).apply()
 
+    // Онбординг (приветственные слайды) уже показан.
+    var onboardingSeen: Boolean
+        get() = prefs.getBoolean("onboarding_seen", false)
+        set(value) = prefs.edit().putBoolean("onboarding_seen", value).apply()
+
     // Защита запущена пользователем (для статуса на главном экране).
     var protectionStarted: Boolean
         get() = prefs.getBoolean("protection_started", false)

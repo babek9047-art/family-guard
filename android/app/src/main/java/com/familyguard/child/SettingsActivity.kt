@@ -174,7 +174,13 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun confirmDisconnect() {
         if (!prefs.hasPin) {
-            explain("Отключить телефон?", "Защита остановится и телефон отвяжется от сайта. Продолжить?", "Отключить") { doDisconnect() }
+            // Отключение разрешено только по PIN. Нет PIN — сначала предлагаем его задать.
+            AlertDialog.Builder(this)
+                .setTitle("Нужен PIN родителя")
+                .setMessage("Отключить телефон от сайта можно только по PIN. Сначала задайте PIN родителя — тогда ребёнок не сможет отключить защиту без него.")
+                .setPositiveButton("Задать PIN") { _, _ -> showPinSetupDialog() }
+                .setNegativeButton("Отмена", null)
+                .show()
             return
         }
         val input = pinInput()

@@ -1165,17 +1165,22 @@ final class Family_Guard_Plugin {
             </section>
         </div>
 
-        <?php if ($apps): ?>
-            <section class="fg-card fg-apps">
-                <h2>Экранное время по приложениям</h2>
-                <p class="fg-muted">Сегодня, по убыванию. Так видно, сколько времени уходит на YouTube, игры и прочее.</p>
+        <section class="fg-card fg-apps">
+            <h2>Экранное время по приложениям</h2>
+            <?php if ($latest && $latest->screen_today_ms !== null): ?>
+                <div class="fg-row"><span class="lbl">Всего сегодня</span><span class="val"><?php echo esc_html($this->format_minutes($latest->screen_today_ms)); ?><?php if ((int) $latest->daily_limit_minutes > 0): ?> / <?php echo esc_html((int) $latest->daily_limit_minutes); ?> мин<?php endif; ?></span></div>
+            <?php endif; ?>
+            <?php if ($apps): ?>
+                <p class="fg-muted">По убыванию. Видно, сколько времени уходит на YouTube, игры и прочее.</p>
                 <?php $max = 0; foreach ($apps as $a) { $max = max($max, (int) $a['foreground_ms']); }
                 foreach (array_slice($apps, 0, 20) as $app): $ms=(int)$app['foreground_ms']; $w=$max>0?round($ms/$max*100):0; ?>
                     <div class="fg-row"><span class="lbl"><?php echo esc_html($app['label'] ?? $app['package']); ?></span><span class="val"><?php echo esc_html($this->format_minutes($ms)); ?></span></div>
                     <div class="fg-bar"><span style="width:<?php echo esc_attr($w); ?>%"></span></div>
                 <?php endforeach; ?>
-            </section>
-        <?php endif; ?>
+            <?php else: ?>
+                <p class="fg-muted">Данные по приложениям ещё не пришли. На телефоне должен быть включён «доступ к статистике приложений», запущена защита и пройти один цикл передачи (до нескольких минут). Как только телефон пришлёт статистику — здесь появятся YouTube, игры и прочее с минутами.</p>
+            <?php endif; ?>
+        </section>
 
         <?php $is_lost = $this->lost_state($device_id);
         $snapshot_command = $wpdb->get_row($wpdb->prepare(
