@@ -1,0 +1,56 @@
+name: Build Family Guard APK
+
+# Собирает и подписывает APK на серверах GitHub.
+# Запуск: вкладка Actions → Build Family Guard APK → Run workflow.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Restore signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          mkdir -p signing
+          echo "$KEYSTORE_BASE64" | base64 -d > signing/family-guard-release.jks
+          cat > signing/keystore.properties <<EOF
+          storeFile=../signing/family-guard-release.jks
+          storePassword=$KEYSTORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          keyPassword=$KEY_PASSWORD
+          EOF
+
+      - name: Build release APKs
+        working-directory: android
+        run: ./gradlew assembleLiteRelease assembleFullRelease --no-daemon
+
+      - name: Rename APKs
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/lite/release/app-lite-release.apk dist/FamilyGuard-1.0.0-lite-release.apk
+          cp android/app/build/outputs/apk/full/release/app-full-release.apk dist/FamilyGuard-1.0.0-full-release.apk
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: FamilyGuard-1.0.0-apks
+          path: dist/*.apk

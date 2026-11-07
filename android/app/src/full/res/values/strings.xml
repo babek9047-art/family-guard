@@ -1,0 +1,3 @@
+<resources>
+    <string name="accessibility_description">Видимая служба родительского контроля. Закрывает приложения, которые родитель добавил в список ограничений.</string>
+</resources>

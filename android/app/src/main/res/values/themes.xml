@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.FamilyGuard" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#2457D6</item>
+        <item name="colorPrimaryVariant">#153B9E</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#153B9E</item>
+    </style>
+</resources>

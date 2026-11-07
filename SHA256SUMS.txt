@@ -1,0 +1,5 @@
+e3885b879e78a71cc62e6ef3c934d10cd8f317a18ec9524afca8a9643d482445 *FamilyGuard-0.1-debug.apk
+5b96fce90ed7642fae28d54966a08fe394e2a21b0300c8d9496d7df2f153517d *FamilyGuard-0.1.1-release.apk
+8c40595ebe20800b8724eb81a762a37d44485a36828e0fceafedb79656193ebe *FamilyGuard-0.4.0-lite-release.apk
+07fa16de49543eb6d077f98b824c6cf46118dc4b86cdb2661960be9761901cf4 *FamilyGuard-0.4.0-full-release.apk
+d1eb25926e9d0100a6a66a5a94bd70750133d714b23218a730728443ab18bd18 *family-guard-wordpress.zip

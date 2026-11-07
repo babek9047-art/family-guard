@@ -1,0 +1,20 @@
+# Ключ подписи — НИКОГДА не коммитить (он идёт в GitHub Secrets)
+signing/*.jks
+signing/keystore.properties
+signing/keystore.base64.txt
+
+# Сборка Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+.gradle/
+
+# Собранные артефакты (не нужны в репозитории — их делает CI)
+*.apk
+*.zip
+android/.kotlin/
+
+# Системное
+Thumbs.db
+.DS_Store
